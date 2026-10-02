@@ -1,0 +1,374 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account profile and Masonic registration information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "fullName": { "type": "string", "maxLength": 200 },
+        "masonicName": { "type": "string", "maxLength": 200 },
+        "email": { "type": "string", "maxLength": 200 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "lodge": { "type": "string", "maxLength": 200 },
+        "grandLodge": { "type": "string", "maxLength": 200 },
+        "degree": { "type": "number" },
+        "cimNumber": { "type": "string", "maxLength": 100 },
+        "age": { "type": "number" },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "role": { "type": "string", "enum": ["admin", "instructor", "brother"] },
+        "status": { "type": "string", "enum": ["pending", "approved", "blocked"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "fullName", "email", "degree", "role", "status"]
+    },
+    "Degree": {
+      "title": "Degree",
+      "description": "Masonic degree metadata and accessibility rules",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "degreeNumber": { "type": "number" },
+        "title": { "type": "string", "maxLength": 150 },
+        "name": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "color": { "type": "string", "maxLength": 50 },
+        "allowPreviousDegrees": { "type": "boolean" },
+        "isActive": { "type": "boolean" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "degreeNumber", "name", "isActive"]
+    },
+    "Module": {
+      "title": "Module",
+      "description": "Thematic module within a degree",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "degreeId": { "type": "string", "maxLength": 128 },
+        "degreeNumber": { "type": "number" },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "degreeId", "degreeNumber", "title", "order"]
+    },
+    "Lesson": {
+      "title": "Lesson",
+      "description": "Masonic instruction lesson with text, multimedia, quiz and essay assignment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "number": { "type": "number" },
+        "title": { "type": "string", "maxLength": 300 },
+        "subtitle": { "type": "string", "maxLength": 500 },
+        "degreeId": { "type": "string", "maxLength": 128 },
+        "degreeNumber": { "type": "number" },
+        "moduleId": { "type": "string", "maxLength": 128 },
+        "objective": { "type": "string", "maxLength": 3000 },
+        "content": { "type": "string", "maxLength": 50000 },
+        "videoUrl": { "type": "string", "maxLength": 500 },
+        "audioUrl": { "type": "string", "maxLength": 500 },
+        "attachments": { "type": "string", "maxLength": 5000 },
+        "essayPrompt": { "type": "string", "maxLength": 5000 },
+        "minimumPassingGrade": { "type": "number" },
+        "status": { "type": "string", "enum": ["draft", "published", "archived"] },
+        "author": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "number", "title", "degreeNumber", "moduleId", "status"]
+    },
+    "Question": {
+      "title": "Question",
+      "description": "Evaluation question for a lesson (10 per lesson)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "lessonId": { "type": "string", "maxLength": 128 },
+        "degreeNumber": { "type": "number" },
+        "order": { "type": "number" },
+        "type": { "type": "string", "enum": ["multiple_choice", "true_false", "written"] },
+        "prompt": { "type": "string", "maxLength": 3000 },
+        "options": { "type": "string", "maxLength": 3000 },
+        "correctAnswer": { "type": "string", "maxLength": 1000 },
+        "explanation": { "type": "string", "maxLength": 3000 },
+        "points": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "lessonId", "order", "type", "prompt", "points"]
+    },
+    "QuizAttempt": {
+      "title": "QuizAttempt",
+      "description": "Quiz attempt submitted by a brother with score and answers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 200 },
+        "lessonId": { "type": "string", "maxLength": 128 },
+        "lessonTitle": { "type": "string", "maxLength": 300 },
+        "degreeNumber": { "type": "number" },
+        "attemptNumber": { "type": "number" },
+        "answers": { "type": "string", "maxLength": 20000 },
+        "score": { "type": "number" },
+        "correctCount": { "type": "number" },
+        "errorCount": { "type": "number" },
+        "isPassed": { "type": "boolean" },
+        "hasPendingManualGrading": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["approved", "rejected", "pending_review"] },
+        "feedback": { "type": "string", "maxLength": 3000 },
+        "gradedBy": { "type": "string", "maxLength": 128 },
+        "gradedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "lessonId", "degreeNumber", "score", "status"]
+    },
+    "Submission": {
+      "title": "Submission",
+      "description": "Prancha de trabalho (Masonic Essay) submitted for evaluation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 200 },
+        "userDegree": { "type": "number" },
+        "lessonId": { "type": "string", "maxLength": 128 },
+        "lessonTitle": { "type": "string", "maxLength": 300 },
+        "degreeNumber": { "type": "number" },
+        "title": { "type": "string", "maxLength": 300 },
+        "comments": { "type": "string", "maxLength": 10000 },
+        "fileUrl": { "type": "string", "maxLength": 1000 },
+        "fileName": { "type": "string", "maxLength": 300 },
+        "fileType": { "type": "string", "maxLength": 100 },
+        "fileSize": { "type": "number" },
+        "status": { "type": "string", "enum": ["enviada", "em_analise", "aprovada", "necessita_correcao", "reenviar"] },
+        "grade": { "type": "number" },
+        "feedback": { "type": "string", "maxLength": 5000 },
+        "instructorOrientation": { "type": "string", "maxLength": 5000 },
+        "evaluatedBy": { "type": "string", "maxLength": 128 },
+        "evaluatedByName": { "type": "string", "maxLength": 200 },
+        "evaluatedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "lessonId", "degreeNumber", "title", "status"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "In-app notifications for brothers and instructors",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "message": { "type": "string", "maxLength": 2000 },
+        "type": { "type": "string", "enum": ["lesson", "quiz", "submission", "degree", "announcement", "general"] },
+        "link": { "type": "string", "maxLength": 500 },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "title", "message", "isRead"]
+    },
+    "Certificate": {
+      "title": "Certificate",
+      "description": "Digital completion certificate for a degree",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 200 },
+        "userCim": { "type": "string", "maxLength": 100 },
+        "degreeNumber": { "type": "number" },
+        "degreeName": { "type": "string", "maxLength": 200 },
+        "institutionName": { "type": "string", "maxLength": 200 },
+        "certificateNumber": { "type": "string", "maxLength": 100 },
+        "issueDate": { "type": "string", "format": "date-time" },
+        "responsibleName": { "type": "string", "maxLength": 200 },
+        "responsibleRole": { "type": "string", "maxLength": 200 },
+        "qrCodeData": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "userName", "degreeNumber", "certificateNumber", "issueDate"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Audit logs for administrative operations",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 200 },
+        "action": { "type": "string", "maxLength": 200 },
+        "details": { "type": "string", "maxLength": 5000 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "targetType": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "action", "createdAt"]
+    },
+    "AppSetting": {
+      "title": "AppSetting",
+      "description": "System settings and global configurations",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "institutionName": { "type": "string", "maxLength": 200 },
+        "defaultPassingGrade": { "type": "number" },
+        "allowPreviousDegreesGlobal": { "type": "boolean" },
+        "maxUploadSizeBytes": { "type": "number" },
+        "requireApprovalForRegistration": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "updatedBy": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "institutionName", "defaultPassingGrade"]
+    },
+    "DeliveredInstruction": {
+      "title": "DeliveredInstruction",
+      "description": "Practical and theoretical instructions delivered in Masonic Lodge/Temple",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 300 },
+        "date": { "type": "string", "maxLength": 20 },
+        "lodgeName": { "type": "string", "maxLength": 200 },
+        "orientCity": { "type": "string", "maxLength": 200 },
+        "grandLodge": { "type": "string", "maxLength": 200 },
+        "instructorName": { "type": "string", "maxLength": 200 },
+        "instructorRole": { "type": "string", "maxLength": 200 },
+        "instructorCim": { "type": "string", "maxLength": 100 },
+        "degreeNumber": { "type": "number" },
+        "degreeName": { "type": "string", "maxLength": 100 },
+        "sessionType": { "type": "string", "maxLength": 100 },
+        "attendeesCount": { "type": "number" },
+        "summaryNotes": { "type": "string", "maxLength": 10000 },
+        "practicalExercises": { "type": "string", "maxLength": 5000 },
+        "attachmentsUrl": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["concluida", "agendada", "em_andamento"] },
+        "registeredById": { "type": "string", "maxLength": 128 },
+        "registeredByName": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "date", "lodgeName", "instructorName", "degreeNumber", "status"]
+    },
+    "SupportMaterial": {
+      "title": "SupportMaterial",
+      "description": "Library textbooks, handbooks, videos, and instructional support materials",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 300 },
+        "description": { "type": "string", "maxLength": 5000 },
+        "mediaType": { "type": "string", "enum": ["pdf", "video", "audio", "document"] },
+        "degreeNumber": { "type": "number" },
+        "degreeName": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 100 },
+        "fileUrl": { "type": "string", "maxLength": 500 },
+        "fileName": { "type": "string", "maxLength": 200 },
+        "fileSize": { "type": "string", "maxLength": 50 },
+        "externalUrl": { "type": "string", "maxLength": 500 },
+        "embedUrl": { "type": "string", "maxLength": 500 },
+        "duration": { "type": "string", "maxLength": 50 },
+        "pagesCount": { "type": "number" },
+        "author": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "mediaType", "degreeNumber", "category"]
+    },
+    "MemberAuthorization": {
+      "title": "MemberAuthorization",
+      "description": "Pre-authorized access tokens and travas de seguranca registered by the gestor",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "tokenCode": { "type": "string", "maxLength": 64 },
+        "fullName": { "type": "string", "maxLength": 200 },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string", "maxLength": 50 },
+        "age": { "type": "number" },
+        "cimNumber": { "type": "string", "maxLength": 50 },
+        "lodge": { "type": "string", "maxLength": 200 },
+        "grandLodge": { "type": "string", "maxLength": 200 },
+        "authorizedDegree": { "type": "number" },
+        "role": { "type": "string", "enum": ["admin", "instructor", "brother"] },
+        "status": { "type": "string", "enum": ["pending", "used", "revoked"] },
+        "temporaryPassword": { "type": "string", "maxLength": 100 },
+        "notes": { "type": "string", "maxLength": 5000 },
+        "createdById": { "type": "string", "maxLength": 128 },
+        "createdByName": { "type": "string", "maxLength": 200 },
+        "usedByUserId": { "type": "string", "maxLength": 128 },
+        "usedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "tokenCode", "fullName", "email", "cimNumber", "lodge", "authorizedDegree", "role", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile with role, degree and status"
+    },
+    "/member_authorizations/{authId}": {
+      "schema": "MemberAuthorization",
+      "description": "Access security locks and authorizations registered by gestor"
+    },
+    "/degrees/{degreeId}": {
+      "schema": "Degree",
+      "description": "Masonic degrees metadata"
+    },
+    "/modules/{moduleId}": {
+      "schema": "Module",
+      "description": "Masonic modules per degree"
+    },
+    "/lessons/{lessonId}": {
+      "schema": "Lesson",
+      "description": "Masonic instruction lessons"
+    },
+    "/delivered_instructions/{instructionId}": {
+      "schema": "DeliveredInstruction",
+      "description": "Instructions delivered in Masonic Temple"
+    },
+    "/support_materials/{materialId}": {
+      "schema": "SupportMaterial",
+      "description": "Instruction textbooks, videos and support materials"
+    },
+    "/questions/{questionId}": {
+      "schema": "Question",
+      "description": "10 questions per lesson"
+    },
+    "/quiz_attempts/{attemptId}": {
+      "schema": "QuizAttempt",
+      "description": "Evaluations submitted by brothers"
+    },
+    "/submissions/{submissionId}": {
+      "schema": "Submission",
+      "description": "Pranchas de trabalho submitted by brothers"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "Individual notifications"
+    },
+    "/certificates/{certificateId}": {
+      "schema": "Certificate",
+      "description": "Degrees completion certificates"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Administrative actions audit log"
+    },
+    "/settings/{settingId}": {
+      "schema": "AppSetting",
+      "description": "Application settings"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Faculdade Maçônica",
+  "description": "Sistema de Instruções por Graus para ensino, acompanhamento e avaliação de irmãos da Maçonaria.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

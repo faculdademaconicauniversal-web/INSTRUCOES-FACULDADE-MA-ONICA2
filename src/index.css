@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+  
+  h1, h2, h3, .font-masonic {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* Masonic Ornamental Accents & Gradients */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #b45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border {
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.gold-border-glow {
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.masonic-card {
+  background: linear-gradient(180deg, #131722 0%, #0e121a 100%);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.masonic-card-highlight {
+  background: linear-gradient(180deg, #181d2a 0%, #111520 100%);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+.crimson-badge {
+  background: linear-gradient(135deg, #881337 0%, #4c0519 100%);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+/* Custom Scrollbar for Solene Theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0d12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e2638;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a344d;
+}
+
+/* Certificate Print Optimization for A4 Landscape */
+@page {
+  size: A4 landscape;
+  margin: 6mm;
+}
+
+@media print {
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html, body {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    overflow: visible !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .certificate-modal-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    overflow: visible !important;
+    z-index: 99999 !important;
+  }
+
+  .certificate-modal-content {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  .certificate-print-area {
+    width: 100% !important;
+    max-width: 282mm !important;
+    min-height: 190mm !important;
+    max-height: 195mm !important;
+    margin: 0 auto !important;
+    padding: 6mm 10mm !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+    border: 3px double #b45309 !important;
+    box-sizing: border-box !important;
+    border-radius: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    overflow: visible !important;
+    background-color: #fdfcf9 !important;
+    color: #0f172a !important;
+  }
+
+  .certificate-print-area * {
+    overflow: visible !important;
+  }
+}

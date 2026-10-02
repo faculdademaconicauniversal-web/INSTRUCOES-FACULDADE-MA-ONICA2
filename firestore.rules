@@ -1,0 +1,98 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // Configurações Globais do Sistema
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Graus Maçônicos (Grau 1, 2 e 3)
+    match /degrees/{degreeId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Módulos Curriculares
+    match /modules/{moduleId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Instruções Oficiais dos Graus (Acervo Completo)
+    match /lessons/{lessonId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Instruções Práticas Ministradas em Templo
+    match /delivered_instructions/{instructionId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Biblioteca de Apoio, Apostilas e Manuais
+    match /support_materials/{materialId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Banco de Questões Avaliativas
+    match /questions/{questionId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Travas de Acesso e Autorizações Prévias do Gestor
+    match /member_authorizations/{authId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Cadastro de Usuários e Irmãos Homologados
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Tentativas de Questionários e Notas
+    match /quiz_attempts/{attemptId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Pranchas de Arquitetura e Submissões de Trabalhos
+    match /submissions/{submissionId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Notificações aos Membros
+    match /notifications/{notificationId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Certificados de Conclusão de Grau
+    match /certificates/{certificateId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Livro de Registro e Auditoria
+    match /audit_logs/{logId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
